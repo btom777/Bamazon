@@ -37,7 +37,10 @@ var start = function() {
 
 var viewProducts = function() {
 	connection.query('SELECT * FROM Products', function(err, res) {
-		console.log(res);
+		console.log("| ItemID | ProductName | DepartmentName | Price | StockQuantity|");
+		for (i = 0; i < res.length; i++) {
+			console.log("| " + res[i].ItemID + " | " + res[i].ProductName + " | " + res[i].DepartmentName + " | " + res[i].Price + " | " + res[i].StockQuantity + " |");
+		}
 	})
 
 	connection.end(function(err) {
@@ -50,7 +53,10 @@ var viewProducts = function() {
 var lowinventory = function() {
 
 	connection.query('SELECT * FROM Products WHERE StockQuantity < 100', function(err, res) {
-		console.log(res);
+		console.log("| ItemID | ProductName | DepartmentName | Price | StockQuantity|");
+		for (i = 0; i < res.length; i++) {
+			console.log("| " + res[i].ItemID + " | " + res[i].ProductName + " | " + res[i].DepartmentName + " | " + res[i].Price + " | " + res[i].StockQuantity + " |");
+		}
 	})
 
 	connection.end(function(err) {
@@ -64,13 +70,13 @@ var addInventory = function() {
 	connection.query('SELECT * FROM Products', function(err, res) {
 		inquirer.prompt({
 			name: "choice",
-			message: "Type the ItemID you want to add inventory to.",
+			message: "Type the ItemID you want to add inventory to",
 			type: "input"
 		}).then(function(answer) {
+			console.log(answer.choice);
 			for (var i = 0; i < res.length; i++) {
 				if (res[i].ItemID == answer.choice) {
 					var chosenItem = res[i];
-					console.log(chosenItem);
 					inquirer.prompt({
 						name: "quantity",
 						message: "How many do you want to add?",
@@ -95,9 +101,6 @@ var addInventory = function() {
 								start();
 						}
 					})
-				} else {
-					console.log("There is nothing in inventory with that ItemID.  Do you want to do anything else?");
-					start();
 				}
 			}
 		})

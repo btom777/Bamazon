@@ -17,7 +17,10 @@ connection.connect(function(err) {
 
 var start = function() {
 	connection.query('SELECT * FROM Products', function(err, res) {
-		console.log(res);
+		console.log("| ItemID | ProductName | DepartmentName | Price | StockQuantity|");
+		for (i = 0; i < res.length; i++) {
+			console.log("| " + res[i].ItemID + " | " + res[i].ProductName + " | " + res[i].DepartmentName + " | " + res[i].Price + " | " + res[i].StockQuantity + " |");
+		}
 		
 		inquirer.prompt({
 			name: "choice",
@@ -26,8 +29,9 @@ var start = function() {
 		}).then(function(answer) {
 			for (var i = 0; i < res.length; i++) {
 				if (res[i].ItemID == answer.choice) {
+					console.log("| ItemID | ProductName | DepartmentName | Price | StockQuantity|");
+					console.log("| " + res[i].ItemID + " | " + res[i].ProductName + " | " + res[i].DepartmentName + " | " + res[i].Price + " | " + res[i].StockQuantity + " |");
 					var chosenItem = res[i];
-					console.log(chosenItem);
 					inquirer.prompt({
 						name: "quantity",
 						message: "How many?",
@@ -48,7 +52,7 @@ var start = function() {
 									// Ensures all previously enqueued queries are still
 									// before sending a COM_QUIT packet to the MySQL server.
 								})
-							});	
+							});
 						} else {
 							console.log("Unfortunately we don't have enough stock to fulfill your order.  Would you like something else?");
 							start();
