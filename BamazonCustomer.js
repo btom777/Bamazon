@@ -43,7 +43,11 @@ var start = function() {
 							}], function(err, res) {
 								console.log("Purchase Successful!");
 								console.log("Your purchase cost $" + price + ".");
-								start();
+								connection.end(function(err) {
+									// The connection is terminated gracefully
+									// Ensures all previously enqueued queries are still
+									// before sending a COM_QUIT packet to the MySQL server.
+								})
 							});	
 						} else {
 							console.log("Unfortunately we don't have enough stock to fulfill your order.  Would you like something else?");
